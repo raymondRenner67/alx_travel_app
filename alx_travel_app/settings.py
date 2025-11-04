@@ -18,7 +18,7 @@ import environ
 
 # Initialise environment variables
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+env.read_env(os.path.join(Path(__file__).resolve().parent.parent, '.env'))
 
 
 
@@ -153,3 +153,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+# Celery configuration (uses RabbitMQ by default)
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://guest:guest@localhost:5672//')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='rpc://')
